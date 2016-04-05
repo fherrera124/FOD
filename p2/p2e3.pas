@@ -21,6 +21,8 @@
 
 program p2e3;
 
+const valoralto = 'zzz';
+
 type
 	stg = string[30];
 
@@ -39,7 +41,7 @@ end;
 maestro = file of regmae;
 detalle = file of regdet;
 
-procedure leer(var archivo:detalle; var regd:alum_materias);
+procedure leer(var archivo:detalle; var regd:regdet);
 begin
 	if (not eof(archivo)) then
 		read (archivo,regd)
@@ -53,23 +55,56 @@ var
 procedure minimo(var r1,r2,r3,min:regdet);
 begin
 	if (r1.cod<=r2.cod) and (r1.cod<=r3.cod) then begin
-		min:= r1;
+		min.cod:= r1.cod;
+		min.cant:= r1.cant;
 		leer(det1,r1);
-	end
-	else if (r2.cod<=r3.cod) then begin
-		min:= r2;
-		leer(det2,r2)
-	else begin
-		min:= r3;
+	end else if (r2.cod<=r3.cod) then begin
+		min.cod:= r2.cod;
+		min.cant:= r2.cant;
+		leer(det2,r2);
+	end else begin
+		min.cod:= r3.cod;
+		min.cant:= r3.cant;
 		leer(det3,r3);
 	end;
 end;
 
 var
 	mae: maestro;
-	det: detalle;
-	regd: regdet;
+	regd1,regd2,regd3,min: regdet;
+	regm: regmae;
+	dif: integer;
 
 begin
-	leer();
+	assign(mae,'mae_p2e3');
+	assign(det1,'det1_p2e3');
+	assign(det2,'det2_p2e3');
+	assign(det3,'det3_p2e3');
+	reset(mae);
+	reset(det1);
+	reset(det2);
+	reset(det3);
+	leer(det1,regd1);
+	leer(det2,regd2);
+	leer(det3,regd3);
+	minimo(regd1,regd2,regd3,min);
+	while (min.cod <> valoralto) do begin
+		read(mae,regm);
+		while (regm.cod <> min.cod) do
+			read(mae,regm);
+		while (regm.cod = min.cod) do begin
+			if (regm.stock < min.cant) then begin
+				dif:= min.cant - regm.stock;
+				regm.stock:= 0;
+				writeln('no se pudieron enviar',dif,'del producto de cod',regm.cod);
+			end else begin
+				regm.stock:= regm.stock - min.cant;
+				if (regm.stock < regm.stock_min) then
+					writeln('producto de cod',regm.cod,'esta x debajo del cod minimo');
+			end;
+			minimo(regd1,regd2,regd3,min);
+		end;
+		seek(mae,filepos(mae)-1);
+		write(mae,regm);
+	end;
 end.
