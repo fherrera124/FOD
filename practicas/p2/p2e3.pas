@@ -92,7 +92,9 @@ begin
 		read(mae,regm);
 		while (regm.cod <> min.cod) do
 			read(mae,regm);
-		while (regm.cod = min.cod) do begin
+		while (regm.cod = min.cod) do begin {revisar,
+		creo q no es necesario de acuerdo a enunciado, igual
+		asi esta mal xq el bucle es infinito}
 			if (regm.stock < min.cant) then begin
 				dif:= min.cant - regm.stock;
 				regm.stock:= 0;

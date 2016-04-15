@@ -141,11 +141,11 @@ var
 begin
 	WriteLn('ALUMNOS');
 	WriteLn;
-	WriteLn('a. Crear archivo binario maestro'); //Importa alumnos.txt
-	WriteLn('b. Crear archivo binario detalle'); //Importa detalle.txt
-	writeln('c. Exportar maestro a archivo txt'); //exporta maestro a reporteAlumnos.txt
-	writeln('d. Exportar detalle a archivo txt'); //exporta detalle a reporteDetalle.txt
-	writeln('e. Actualizar archivo maestro');
+	WriteLn('1. Crear archivo binario maestro'); //Importa alumnos.txt
+	WriteLn('2. Crear archivo binario detalle'); //Importa detalle.txt
+	writeln('3. Exportar maestro a archivo txt'); //exporta maestro a reporteAlumnos.txt
+	writeln('4. Exportar detalle a archivo txt'); //exporta detalle a reporteDetalle.txt
+	writeln('5. Actualizar archivo maestro');
 	//writeln();
 	//writeln();
 	WriteLn('0. Salir');
@@ -164,7 +164,7 @@ begin
             end;
             2: begin
                 writeln;
-                writeln('Se creará el archivo binario maestro');
+                writeln('Se creará el archivo binario detalle');
                 assign(det, 'detalle');
                 assign(t, 'detalle.txt');
                 writeln('Importando detalle.txt...');
@@ -186,6 +186,7 @@ begin
                 writeln('Exportando a reporteDetalle.txt...');
                 exportar_detalle(det, t);
             end;
+            //5: pendiente
         end;
         ClrScr;
      until
