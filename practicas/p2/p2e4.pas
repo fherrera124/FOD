@@ -107,7 +107,7 @@ end;
 procedure imprimir_ventas(VAR det: detalle); //x ref aunque no se modifique
 var
 	reg: regdet;
-begin
+begin//agregar para corte opcional x teclado
 	reset(det);
 	while not(EOF(det)) do begin
 		read(det, reg);
@@ -140,6 +140,21 @@ begin
 	close(mae);
 end;
 
+procedure stock_min(var mae:maestro; var T:text);
+var
+	reg: regmae;
+begin
+	reset(mae);
+	rewrite(T);
+	while not(eof(mae)) do begin
+		read(mae,reg);
+		if (reg.stk < reg.stk_min) then
+			writeln(T, reg.cod);
+	end;
+	close(mae);
+	close(T);
+end;
+
 var
 	mae: maestro;
 	det: detalle;
@@ -147,18 +162,19 @@ var
 	opc: byte;
 
 begin
-	WriteLn('LOCAL PROD DE LIMPIEZA');
-	WriteLn;
-	WriteLn('a. Crear archivo binario maestro'); //Importa productos.txt
-	writeln('b. Exportar maestro a archivo txt'); //exporta maestro a reporte.txt
-	WriteLn('c. Crear archivo binario detalle'); //Importa ventas.txt
-	writeln('d. Imprimir detalle');
-	writeln('e. Actualizar archivo maestro');
+	writeLn('LOCAL PROD DE LIMPIEZA');
+	writeLn;
+	writeLn('1. Crear archivo binario maestro'); //Importa productos.txt
+	writeln('2. Exportar maestro a archivo txt'); //exporta maestro a reporte.txt
+	WriteLn('3. Crear archivo binario detalle'); //Importa ventas.txt
+	writeln('4. Imprimir detalle');
+	writeln('5. Actualizar archivo maestro');
+	writeln('6. Guardar productos con stock debajo del min permitido'); // crear stock_minimo.txt
 	WriteLn('0. Salir');
 	Window(1,10,80,22);
 	repeat
 		writeln('Ingrese opcion: ');
-        ReadLn(opc);
+        read(opc);
         case opc of 
 			1: begin
                 writeln;
@@ -197,7 +213,15 @@ begin
 				assign(det,'det1_p2e4');
 				act_maestro(mae,det);
 			end;
+			6: begin
+				writeln;
+				writeln('Se creará archivo stock_minimo.txt');
+				assign(mae,'mae_p2e4');
+				assign(t,'stock_minimo.txt');
+				stock_min(mae,t);
+			end;
         end;
+        delay(2000); //espera 2 segs antes de limpiar pantalla
         ClrScr;
      until
         opc=0;
