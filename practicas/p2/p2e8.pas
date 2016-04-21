@@ -24,13 +24,12 @@
 
 {
 * Notas mías:
-* ▪ Considero el caso más simple en el que c/ num de coche y linea son
-*   únicos e irrepetibles.
-* ▪ Recaudación mensual, basicamente toda la recaudación del coche que
-*   figure en el archivo.
-* ▪ El campo día no lo uso, seguro tiene que ver algo con la
-*   disponibilidad que pide el inciso a. PENDIENTE.
-* ▪ Chequeo sólo el primer campo (nroZona) que sea distinto a -1.
+* ▪ CONSIDERO: Que código de coche no se repite en otra linea, ni código
+*   de linea se repite en otra zona.
+* ▪ PREGUNTAR: Pendiente lo de disponibilidad que pide el inciso a.
+*   Seguro tiene algo que ver con el campo 'dia', que no lo uso.
+* ▪ PREGUNTAR: Releyendo el enunciado, parece que en vez de chequear por
+*   eof de archivo, tengo que chequear por campo distinto de -1.
 }
 
 program p2e8;
@@ -51,12 +50,17 @@ begin
 	if not(eof(mae)) then
 		read(mae,reg)
 	else begin
-		reg.nroZona:= -1; //único que chequeo
+		reg.nroZona:= -1;
 		reg.nroLinea:= -1;
 		reg.nroCoche:= -1;
 		reg.dia:= -1;
 		reg.recDia:= -1;
 	end;
+end;
+
+procedure leer(var mae:maestro; var reg:regmae);
+begin
+	
 end;
 
 var
@@ -91,10 +95,10 @@ begin
 					leer(mae,reg);
 				end;
 				{cambio de coche:
-				-Print recaudacion y disponibilidad del coche anterior,
-				-sumarla a la recaudacion total de la linea.
+				-Print disponibilidad del coche anterior. PENDIENTE
+				-Print su recaudación,
+				-y sumarla a la recaudacion total de la linea.
 				-Incrementar cant de coches de linea actual.}
-				//writeln('Disponibilidad:'); PENDIENTE
 				writeln('Recaudación: ', recCoche);
 				recLinea:= recLinea + recCoche;
 				cantCoches:= cantCoches + 1;
@@ -121,11 +125,11 @@ begin
 			maxCantLineas:= cantLineas;
 			zonaMaxCantLineas:= nroZona;
 		end;
-		writeln('Linea con mayor recaudación de zona ',nroZona,': ',linMayorRec);
+		writeln('Linea max recaud. de zona ',nroZona,': ',linMayorRec);
 	end;
 	{fin de archivo:
 	-Recaudación total de empresa.
 	-Print zona con mayor cant de líneas.}
 	writeln('Total Empresa: ',totalEmp);
-	writeln('Zona con mayor num de líneas: ',zonaMaxCantLineas);
+	writeln('Zona con mayor num de líneas: ', zonaMaxCantLineas);
 end.
