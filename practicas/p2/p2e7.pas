@@ -62,7 +62,7 @@ end;
 var
 	mae: maestro;
 	reg: regmae;
-	nroZona, nroLinea, nroCoche,linMayorRec,cantLineas, cantCoches,
+	nroZona, nroLinea, nroCoche, linMayorRec, cantLineas, cantCoches,
 	maxCantLineas, zonaMaxCantLineas: integer;
 	totalEmp, recLinea, recCoche, recProm, maxLinea: real;
 
