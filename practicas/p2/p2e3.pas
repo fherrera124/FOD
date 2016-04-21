@@ -19,27 +19,43 @@
 * detalle el mismo producto aparece sólo una vez.
 }
 
+{
+* nota mía 1: el código es el mismo para el caso de que estuviese
+* permitido de que un mismo producto aparezca más de una vez en un
+* mismo archivo detalle, ya que al procedimiento minimo le es
+* indiferente de qué detalle proviene el producto.
+* nota mía 2: en el libro de cátedra es distinto, se acumula en una
+* variable la cantidad de un mismo producto entre distintos detalles,
+* luego se busca en el maestro el producto para restarlo al stock
+* actual. Yo lo resto al stock por cada coincidencia en un detalle,
+* ya que en este ejercicio se pide informar los pedidos que no pudieron
+* satisfacerse totalmentese, y se pueda encontrar el momento en que
+* suceda eso. DUDA: ¿informar cómo? yo lo que hago es imprimir en
+* pantalla.
+}
+
 program p2e3;
 
-const valoralto = 'zzz';
+const
+	valoralto = 'zzz';
 
 type
 	stg = string[30];
 
-regmae = record
-	cod: stg;
-	descripcion: stg;
-	stock: integer;
-	stock_min: integer;
-end;
+	regmae = record
+		cod: stg;
+		descripcion: stg;
+		stock: integer;
+		stock_min: integer;
+	end;
 
-regdet = record
-	cod: stg;
-	cant: integer;
-end;
+	regdet = record
+		cod: stg;
+		cant: integer;
+	end;
 
-maestro = file of regmae;
-detalle = file of regdet;
+	maestro = file of regmae;
+	detalle = file of regdet;
 
 procedure leer(var archivo:detalle; var regd:regdet);
 begin
@@ -92,9 +108,7 @@ begin
 		read(mae,regm);
 		while (regm.cod <> min.cod) do
 			read(mae,regm);
-		while (regm.cod = min.cod) do begin {revisar,
-		creo q no es necesario de acuerdo a enunciado, igual
-		asi esta mal xq el bucle es infinito}
+		while (regm.cod = min.cod) do begin
 			if (regm.stock < min.cant) then begin
 				dif:= min.cant - regm.stock;
 				regm.stock:= 0;

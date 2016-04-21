@@ -15,9 +15,11 @@
 
 program p1e1;
 
-	const valoralto = 'zzz';
+const
+	valoralto = 'zzz';
 
-	type stg = string[30];
+type
+	stg = string[30];
 
 	vendedor = record
 		cod_promotor : stg;

@@ -28,28 +28,30 @@
 
 program p2e4;
 
-Uses CRT;
+Uses
+	CRT;
 
-const valoralto = 'zzz';
+const
+	valoralto = 'zzz';
 
 type
 	stg = string[30];
 
-regmae = record
-	cod: stg;
-	nom: stg;
-	prec: integer;
-	stk: integer;
-	stk_min: integer;
-end;
+	regmae = record
+		cod: stg;
+		nom: stg;
+		prec: integer;
+		stk: integer;
+		stk_min: integer;
+	end;
 
-regdet = record
-	cod: stg;
-	vend: integer;
-end;
+	regdet = record
+		cod: stg;
+		vend: integer;
+	end;
 
-maestro = file of regmae;
-detalle = file of regdet;
+	maestro = file of regmae;
+	detalle = file of regdet;
 
 { Importa un archivo de texto a un archivo binario }
 procedure importar_productostxt (VAR mae: maestro; VAR T: text);

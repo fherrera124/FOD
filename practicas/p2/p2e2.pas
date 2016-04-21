@@ -26,22 +26,31 @@
 * materias cursadas sin aprobar. Deben listarse todos los campos.
 * NOTA: Para la actualización del inciso e) los archivos deben
 * recorrerse sólo una vez.
-* }
+}
+
+{
+* nota mía: para el inciso e no hay que chequear si tal materia en el
+* detalle ya se había actualizado en el maestro Que era mi
+* preocupacion.
+}
 
 program p2e2;
 
-Uses CRT;
+uses
+	CRT;
 
-	const valoralto = 'zzz';
+const
+	valoralto = 'zzz';
 
-	type stg = string[30];
+type
+	stg = string[30];
 	
 	alum_gral = record
 		cod : stg;
 		apel : stg;
 		nom : stg;
-		aprobs_no_final : integer;
-		aprobs_si_final : integer;
+		cursada : integer;
+		finalizada : integer;
 	end;
 	
 	alum_materias = record
@@ -52,14 +61,6 @@ Uses CRT;
 	
 	maestro = file of alum_gral;
 	detalle = file of alum_materias;
-
-procedure leer(var archivo:detalle; var regd:alum_materias);
-begin
-	if (not eof(archivo)) then
-		read (archivo,regd)
-	else
-		regd.cod:= valoralto;
-end;
 
 { Importa un archivo de texto a un archivo binario }
 procedure importar_alumnostxt (VAR mae: maestro; VAR T: text);
@@ -73,8 +74,8 @@ begin
 		writeln('ok');
 		readln(T, reg.apel);
 		readln(T, reg.nom);
-		readln(T, reg.aprobs_no_final);
-		readln(T, reg.aprobs_si_final);
+		readln(T, reg.cursada);
+		readln(T, reg.finalizada);
 		write(mae, reg);
 	end;
 	close(mae);
@@ -110,8 +111,8 @@ begin
 		writeln(T, reg.cod);
 		writeln(T, reg.apel);
 		writeln(T, reg.nom);
-		writeln(T, reg.aprobs_no_final);
-		writeln(T, reg.aprobs_si_final);
+		writeln(T, reg.cursada);
+		writeln(T, reg.finalizada);
 	end;
 	close(mae);
 	close(T);
@@ -153,11 +154,11 @@ begin
 	repeat
 		writeln('Ingrese opcion: ');
         ReadLn(opc);
-        case opc of 
+        case opc of
 			1: begin
                 writeln;
                 writeln('Se creará el archivo binario maestro');
-                assign(mae, 'maestro');
+                assign(mae, 'mae_p2e2');
                 assign(t, 'alumnos.txt');
                 writeln('Importando alumnos.txt...');
                 importar_alumnostxt(mae, t);
@@ -165,7 +166,7 @@ begin
             2: begin
                 writeln;
                 writeln('Se creará el archivo binario detalle');
-                assign(det, 'detalle');
+                assign(det, 'det_p2e2');
                 assign(t, 'detalle.txt');
                 writeln('Importando detalle.txt...');
                 importar_detalletxt(det, t);
@@ -173,7 +174,7 @@ begin
             3: begin
                 writeln;
                 writeln('Se creará el archivo de texto reporteAlumnos.txt');
-                assign(mae, 'maestro');
+                assign(mae, 'mae_p2e2');
                 assign(t, 'reporteAlumnos.txt');
                 writeln('Exportando a reporteAlumnos.txt...');
                 exportar_maestro(mae, t);
@@ -181,7 +182,7 @@ begin
             4: begin
                 writeln;
                 writeln('Se creará el archivo de texto reporteDetalle.txt');
-                assign(det, 'detalle');
+                assign(det, 'det_p2e2');
                 assign(t, 'reporteDetalle.txt');
                 writeln('Exportando a reporteDetalle.txt...');
                 exportar_detalle(det, t);
