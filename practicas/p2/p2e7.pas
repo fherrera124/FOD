@@ -30,8 +30,6 @@
 *   figure en el archivo.
 * ▪ El campo día no lo uso, seguro tiene que ver algo con la
 *   disponibilidad que pide el inciso a. PENDIENTE.
-* ▪ Para inciso b, total recaudado por linea dividido por cantidad de
-*   coches que dispone.
 * ▪ Chequeo sólo el primer campo (nroZona) que sea distinto a -1.
 }
 
@@ -64,52 +62,49 @@ end;
 var
 	mae: maestro;
 	reg: regmae;
-	nroZona, nroLinea, nroCoche,linMayorRec,cantLineas, cantCoches,maxCantLineas,zonaMaxCantLineas: integer;
+	nroZona, nroLinea, nroCoche,linMayorRec,cantLineas, cantCoches,
+	maxCantLineas, zonaMaxCantLineas: integer;
 	totalEmp, recLinea, recCoche, recProm, maxLinea: real;
 
 begin
 	assign(mae,'mae_p2e7');
 	reset(mae);
 	leer(mae,reg);
-	totalEmp:= 0; // para el inciso d
+	totalEmp:= 0;
 	maxCantLineas:= -1;
-	while (reg.nroZona <> -1) do begin //no se llegó al final de arch
+	while (reg.nroZona <> -1) do begin
 		writeln('Zona: ', reg.nroZona);
 		maxLinea:= -1;
 		cantLineas:= 0; //relacionada con maxCantLineas de + arriba
-		nroZona:= reg.nroZona; //para saber si cambió zona
-		while (nroZona=reg.nroZona) do begin//idem
-			writeln('Línea: ',reg.nroLinea);//...
+		nroZona:= reg.nroZona;
+		while (nroZona=reg.nroZona) do begin
+			writeln('Línea: ',reg.nroLinea);
 			recLinea:= 0; //relacionada con maxLinea de + arriba
 			cantCoches:= 0;
-
-			nroLinea:= reg.nroLinea;//para saber si cambió línea
-			while (nroLinea=reg.nroLinea) do begin //idem
+			nroLinea:= reg.nroLinea;
+			while (nroLinea=reg.nroLinea) do begin
 				writeln('Coche: ', reg.nroCoche);
-				recCoche:= 0; //recaudación de coche
-
-				nroCoche:= reg.nroCoche;//para saber si cambió coche
-				while (nroCoche=reg.nroCoche) do begin//idem
-					recCoche:= recCoche + reg.recDia; //rec de coche
+				recCoche:= 0;
+				nroCoche:= reg.nroCoche;
+				while (nroCoche=reg.nroCoche) do begin
+					recCoche:= recCoche + reg.recDia;
 					leer(mae,reg);
 				end;
 				{cambio de coche:
-				* Print recaudacion y disponibilidad del coche anterior
-				* sumarla a la recaudacion total de la linea
-				* Incrementar cant de coches de linea actual.
-				}
+				-Print recaudacion y disponibilidad del coche anterior,
+				-sumarla a la recaudacion total de la linea.
+				-Incrementar cant de coches de linea actual.}
 				//writeln('Disponibilidad:'); PENDIENTE
 				writeln('Recaudación: ', recCoche);
 				recLinea:= recLinea + recCoche;
 				cantCoches:= cantCoches + 1;
 			end;
 			{cambio de linea:
-			* Sumar recaudacion de la linea al total de empresa.
-			* actualizar linea de zona actual con mayor recaudacion por
-			* el momento.
-			* Incrementar cant de lineas de zona actual.
-			* Print recaud. promedio de los coches de linea anterior
-			}
+			-Sumar recaudacion de la linea al total de empresa.
+			-actualizar linea de zona actual con mayor recaudacion hasta
+			 el momento.
+			-Incrementar cant de lineas de zona actual.
+			-Print recaud. promedio de los coches de linea anterior}
 			totalEmp:= totalEmp + recLinea;
 			if (maxLinea<recLinea) then begin
 				maxLinea:= recLinea;
@@ -120,9 +115,8 @@ begin
 			writeln('Recaudación promedio de los coches: ', recProm);
 		end;
 		{cambio de zona:
-		* actualizar zona con mayor cant de líneas por el momento.
-		* Imprimir la linea con mayor recaudacion de la zona anterior
-		}
+		-Actualizar zona con mayor cant de líneas hasta el momento.
+		-Imprimir la linea con mayor recaudacion de la zona anterior}
 		if (maxCantLineas<cantLineas) then begin
 			maxCantLineas:= cantLineas;
 			zonaMaxCantLineas:= nroZona;
@@ -130,8 +124,8 @@ begin
 		writeln('Linea con mayor recaudación de zona ',nroZona,': ',linMayorRec);
 	end;
 	{fin de archivo:
-	* Recaudación total de empresa.
-	* Print zona con mayor cant de líneas.}
+	-Recaudación total de empresa.
+	-Print zona con mayor cant de líneas.}
 	writeln('Total Empresa: ',totalEmp);
 	writeln('Zona con mayor num de líneas: ',zonaMaxCantLineas);
 end.
