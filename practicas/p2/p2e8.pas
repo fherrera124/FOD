@@ -33,7 +33,7 @@
 * ▪ Chequeo sólo el primer campo (nroZona) que sea distinto a -1.
 }
 
-program p2e7;
+program p2e8;
 
 type
 	regmae = record
@@ -67,7 +67,7 @@ var
 	totalEmp, recLinea, recCoche, recProm, maxLinea: real;
 
 begin
-	assign(mae,'mae_p2e7');
+	assign(mae,'mae_p2e8');
 	reset(mae);
 	leer(mae,reg);
 	totalEmp:= 0;
