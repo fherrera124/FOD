@@ -22,8 +22,8 @@
 *   -El archivo detalle sólo contiene registros que están en el archivo
 *    maestro.
 * f. Listar en un archivo de texto llamado “stock_minimo.txt” aquellos
-* productos cuyo stock actual esté por debajo del stock mínimo permitido
-* .
+* productos cuyo stock actual esté por debajo del stock mínimo
+* permitido.
 }
 
 program p2e4;
